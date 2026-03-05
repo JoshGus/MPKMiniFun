@@ -4,14 +4,14 @@ NOTE_NAMES = [
 ]
 
 PAD_MAP = {
-    36: "PAD_1",
-    37: "PAD_2",
-    38: "PAD_3",
-    39: "PAD_4",
-    40: "PAD_5",
-    41: "PAD_6",
-    42: "PAD_7",
-    43: "PAD_8"
+    48: "PAD_1",
+    50: "PAD_2",
+    52: "PAD_3",
+    53: "PAD_4",
+    55: "PAD_5",
+    57: "PAD_6",
+    59: "PAD_7",
+    60: "PAD_8"
 }
 
 
@@ -28,7 +28,8 @@ def parse_event(event):
     note = data[1]
     value = data[2]
 
-    if status == 144 and value > 0:
+    # NOTE ON
+    if 144 <= status < 160 and value > 0:
 
         if note in PAD_MAP:
             return {
@@ -42,7 +43,8 @@ def parse_event(event):
             "velocity": value
         }
 
-    elif status == 176:
+    # CONTROL CHANGE (knobs)
+    elif 176 <= status < 192:
         return {
             "type": "knob",
             "control": note,
